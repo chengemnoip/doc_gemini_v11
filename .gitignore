@@ -1,0 +1,6 @@
+# 忽略專案根目錄下不需要發布的資料夾
+docling_docs/
+test/
+
+# 忽略環境變數檔案
+.env.local
