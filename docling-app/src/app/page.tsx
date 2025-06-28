@@ -38,13 +38,21 @@ export default function Home() {
     setError(null);
     setMarkdown('');
 
+    const MAX_FILE_SIZE_MB = 50; // 最大文件大小限制为 50MB
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
     const formData = new FormData();
     if (file) {
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        setError(`文件大小不能超過 ${MAX_FILE_SIZE_MB}MB。`);
+        setLoading(false);
+        return;
+      }
       formData.append('file', file);
     } else if (url) {
       formData.append('url', url);
     } else {
-      setError('Please select a file or enter a URL.');
+      setError('請選擇一個文件或輸入一個 URL。');
       setLoading(false);
       return;
     }
