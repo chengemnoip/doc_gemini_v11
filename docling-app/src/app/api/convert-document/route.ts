@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // Use Busboy to parse multipart/form-data stream
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const busboy = Busboy({ headers: req.headers as any });
 
     const parsePromise = new Promise<void>((resolve, reject) => {
@@ -72,6 +73,7 @@ export async function POST(req: NextRequest) {
 
       // Pipe the request body to busboy
       if (req.body) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Readable.fromWeb(req.body as any).pipe(busboy);
       } else {
         reject(new Error('Request body is empty.'));
