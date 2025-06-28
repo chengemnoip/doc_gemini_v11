@@ -65,8 +65,12 @@ export default function Home() {
       const data = await response.json();
       setMarkdown(data.markdown);
       setOriginalFileName(data.originalFileName || 'converted_document');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      let errorMessage = 'Failed to convert document.';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -123,8 +123,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to get text response from Gemini API.' }, { status: 500 });
     }
     return NextResponse.json({ markdown: responseText, originalFileName: originalFileName });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error converting document:', error);
-    return NextResponse.json({ error: error.message || 'Failed to convert document.' }, { status: 500 });
+    let errorMessage = 'Failed to convert document.';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
